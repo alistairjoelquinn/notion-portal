@@ -4,7 +4,11 @@ import Header from './Header';
 import GlobalStyles from './styles/GlobalStyles';
 import Typography from './styles/Typography';
 
-const Page = ({ children: any }) => (
+interface PageProps {
+    children: any;
+}
+
+const Page: React.FC<PageProps> = ({ children }) => (
     <div>
         <Normalize />
         <GlobalStyles />
