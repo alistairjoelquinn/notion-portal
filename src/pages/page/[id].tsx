@@ -23,20 +23,23 @@ const SinglePageStyles = styled.main`
     padding-top: 10rem;
 `;
 
-interface Props {
+export interface Props {
     results: Result[];
     query?: any;
 }
 
 export interface Result {
     type: string;
-    text: Text;
-    annotations: Annotations;
+    text: ResultText;
+    annotations: ResultAnnotations;
     plain_text: string;
     href: null;
+    heading_3?: Text;
+    paragraph?: Text;
+    bulleted_list_item?: Text;
 }
 
-export interface Annotations {
+export interface ResultAnnotations {
     bold: boolean;
     italic: boolean;
     strikethrough: boolean;
@@ -45,29 +48,46 @@ export interface Annotations {
     color: string;
 }
 
+export interface ResultText {
+    content: string;
+    link: null;
+}
+
 export interface Text {
+    type: string;
+    text: TextText;
+    annotations: TextAnnotations;
+    plain_text: string;
+    href: null;
+}
+
+export interface TextAnnotations {
+    bold: boolean;
+    italic: boolean;
+    strikethrough: boolean;
+    underline: boolean;
+    code: boolean;
+    color: string;
+}
+
+export interface TextText {
     content: string;
     link: null;
 }
 
 const SinglePage: React.FC<Props> = ({ results }) => {
     console.log('results: ', results);
-    if (navigator) {
-        navigator.clipboard.writeText(JSON.stringify(results[0]));
-    }
-    let notionNotes;
     if (results) {
-        notionNotes = results.map((result: Result) => {
+        const notionNotes = results.map((result: Result) => {
             const { type } = result;
             return result[type].text;
         });
         console.log('notionNotes: ', notionNotes);
-        if (navigator) {
-            navigator.clipboard.writeText(JSON.stringify(notionNotes[0][0]));
-        }
+
+        if (!notionNotes) return null;
     }
 
-    if (!notionNotes) return null;
+    if (!results) return null;
 
     return (
         <div>
