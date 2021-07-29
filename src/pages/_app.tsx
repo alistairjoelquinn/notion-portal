@@ -1,12 +1,20 @@
 import { NextPage } from 'next';
+import { Normalize } from 'styled-normalize';
 
 import { AppProps, GetPropsContext, PagePropsBase } from '@/models/_app';
-import Page from '../components/Page';
+import GlobalStyles from '@/components/styles/GlobalStyles';
+import Typography from '@/components/styles/Typography';
+import Page from '@/components/Page';
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => (
-    <Page>
-        <Component {...pageProps} />
-    </Page>
+    <>
+        <Normalize />
+        <GlobalStyles />
+        <Typography />
+        <Page>
+            <Component {...pageProps} />
+        </Page>
+    </>
 );
 
 App.getInitialProps = async (props: GetPropsContext) => {

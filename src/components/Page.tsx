@@ -1,8 +1,4 @@
-import { Normalize } from 'styled-normalize';
-
-import Header from './Header';
-import GlobalStyles from './styles/GlobalStyles';
-import Typography from './styles/Typography';
+import Header from '@/components/Header';
 
 interface PageProps {
     children: any;
@@ -10,9 +6,6 @@ interface PageProps {
 
 const Page: React.FC<PageProps> = ({ children }) => (
     <div>
-        <Normalize />
-        <GlobalStyles />
-        <Typography />
         <Header />
         {children}
     </div>
