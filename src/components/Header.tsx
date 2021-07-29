@@ -11,7 +11,7 @@ const HeaderStyles = styled.header`
 
 const Header: React.FC = () => (
     <HeaderStyles>
-        <h1>ProjectHeader</h1>
+        <h1>Project Header</h1>
     </HeaderStyles>
 );
 

@@ -1,12 +1,5 @@
-secrets.json
-
 # dependencies
 /node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
 
 # next.js
 /.next/
@@ -17,7 +10,6 @@ secrets.json
 
 # misc
 .DS_Store
-*.pem
 
 # debug
 npm-debug.log*
