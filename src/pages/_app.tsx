@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 
-import { AppProps, PagePropsBase } from '@/models/App';
+import { AppProps, GetPropsContext, PagePropsBase } from '@/models/App';
 import Page from '../components/Page';
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => (
@@ -9,12 +9,12 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => (
     </Page>
 );
 
-App.getInitialProps = async ({ Component, ctx }) => {
+App.getInitialProps = async (props: GetPropsContext) => {
     let pageProps: PagePropsBase = {};
-    if (Component.getInitialProps) {
-        pageProps = await Component.getInitialProps(ctx);
+    if (props.Component.getInitialProps) {
+        pageProps = await props.Component.getInitialProps(props.ctx);
     }
-    pageProps.query = ctx.query;
+    pageProps.query = props.ctx.query;
     return { pageProps };
 };
 
