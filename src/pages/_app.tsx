@@ -1,6 +1,23 @@
 import { AppProps } from 'next/app';
-import '@/styles/global.css';
+import Page from '../components/Page';
 
-export default function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+const App = ({ Component, pageProps }: AppProps) => (
+    <Page>
+        <Component {...pageProps} />
+    </Page>
+);
+
+interface PagePropsReceived {
+    query: any;
 }
+
+App.getInitialProps = async ({ Component, ctx }) => {
+    let pageProps: PagePropsReceived = { query: undefined };
+    if (Component.getInitialProps) {
+        pageProps = await Component.getInitialProps(ctx);
+    }
+    pageProps.query = ctx.query;
+    return { pageProps };
+};
+
+export default App;
