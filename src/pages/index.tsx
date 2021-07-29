@@ -3,12 +3,12 @@ import Head from 'next/head';
 const Home = () => (
     <div>
         <Head>
-            <title>Alistair Quinn Next Typescript Boilerplate</title>
+            <title>Alistair Quinn Next Typescript Template</title>
             <link rel="icon" href="/favicon.ico" />
         </Head>
 
         <main>
-            <p>Next Typescript Boilerplate Body</p>
+            <p>Next Typescript Template Body</p>
         </main>
     </div>
 );
