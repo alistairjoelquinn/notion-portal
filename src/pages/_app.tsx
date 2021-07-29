@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 
-import { AppProps, GetPropsContext, PagePropsBase } from '@/models/App';
+import { AppProps, GetPropsContext, PagePropsBase } from '@/models/_app';
 import Page from '../components/Page';
 
 const App: NextPage<AppProps> = ({ Component, pageProps }) => (
