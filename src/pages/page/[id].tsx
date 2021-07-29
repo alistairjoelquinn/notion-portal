@@ -1,7 +1,8 @@
 import { ParamsBase } from '@/models';
 import Head from 'next/head';
-
+import { v4 as uuid } from 'uuid';
 import styled from 'styled-components';
+
 import paths from '../../../content/paths.json';
 
 const pathData: Paths[] = paths;
@@ -90,32 +91,31 @@ export interface PathParams {
 }
 
 const SinglePage: React.FC<Props> = ({ results, query }) => {
-    console.log('results: ', results);
+    let notionNotes: Text[][] = [];
     if (results) {
-        const notionNotes: Text[][] = results.map((result: Result) => {
+        notionNotes = results.map((result: Result) => {
             const { type } = result;
+            console.log('type: ', type);
             return result[type].text;
         });
-        console.log('notionNotes: ', notionNotes);
-
-        if (!notionNotes) return null;
     }
 
+    if (!notionNotes) return null;
     if (!results) return null;
 
     return (
         <div>
             <Head>
-                <title>{pathData.find((path) => path.params.id === query.id).params.title}</title>
+                <title>{pathData.find((path) => path.params.id === query.id)?.params.title}</title>
             </Head>
 
             <SinglePageStyles>
-                {/* {notionNotes.map((note, idx) => (
-                    <div key={idx}>
-                        {note && note.map((item, idx) => <span key={idx}>{item.plain_text}</span>)}
+                {notionNotes.map((note) => (
+                    <div key={uuid()}>
+                        {note && note.map((item) => <span key={uuid()}>{item.plain_text}</span>)}
                         <br />
                     </div>
-                ))} */}
+                ))}
             </SinglePageStyles>
         </div>
     );
