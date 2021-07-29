@@ -33,8 +33,7 @@ const SinglePage: React.FC<Props> = ({ results, query }) => {
     if (results) {
         notionNotes = results.map((result: Result) => {
             const { type } = result;
-            console.log('type: ', type);
-            return result[type].text;
+            return result[type]?.text;
         });
     }
 

@@ -6,7 +6,7 @@ export interface Props {
 }
 
 export interface Result {
-    type: string;
+    type: keyof Result;
     text: ResultText;
     annotations: ResultAnnotations;
     plain_text: string;
