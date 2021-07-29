@@ -4,7 +4,7 @@ const Home = () => (
     <div>
         <Head>
             <title>Alistair Quinn Next Typescript Boilerplate</title>
-            <link rel="icon" href="/static/favicon.ico" />
+            <link rel="icon" href="/favicon.ico" />
         </Head>
 
         <main>
