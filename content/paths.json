@@ -1,0 +1,26 @@
+[
+    {
+        "params": {
+            "id": "95694f5d2d5c434991217c76f63a2608",
+            "title": "Flexbox"
+        }
+    },
+    {
+        "params": {
+            "id": "efbc67e9ecd54dd5ae67c5a493b14844",
+            "title": "Kitty Carousel 2"
+        }
+    },
+    {
+        "params": {
+            "id": "6b3827048b5744d7b11817b92228c580",
+            "title": "Spotify Search"
+        }
+    },
+    {
+        "params": {
+            "id": "c10075bafa854d0887ca9137d74093a6",
+            "title": "Async - await"
+        }
+    }
+]
