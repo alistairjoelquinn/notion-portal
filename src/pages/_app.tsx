@@ -1,18 +1,16 @@
-import { AppProps } from 'next/app';
+import { NextPage } from 'next';
+
+import { AppProps, PagePropsBase } from '@/models/App';
 import Page from '../components/Page';
 
-const App = ({ Component, pageProps }: AppProps) => (
+const App: NextPage<AppProps> = ({ Component, pageProps }) => (
     <Page>
         <Component {...pageProps} />
     </Page>
 );
 
-interface PagePropsReceived {
-    query: any;
-}
-
 App.getInitialProps = async ({ Component, ctx }) => {
-    let pageProps: PagePropsReceived = { query: undefined };
+    let pageProps: PagePropsBase = {};
     if (Component.getInitialProps) {
         pageProps = await Component.getInitialProps(ctx);
     }
