@@ -8,7 +8,7 @@ const Home: React.FC = () => (
         </Head>
 
         <main>
-            <p>Next Typescript Template Body</p>
+            <div>Nextjs / Typescript template body</div>
         </main>
     </div>
 );
