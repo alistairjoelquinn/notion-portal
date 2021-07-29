@@ -2,7 +2,9 @@ import { ParamsBase } from '@/models';
 import Head from 'next/head';
 
 import styled from 'styled-components';
-// import paths from '../../../content/paths.json';
+import paths from '../../../content/paths.json';
+
+const pathData: Paths[] = paths;
 
 export async function getServerSideProps({ params }: ParamsBase) {
     const res = await fetch(`https://api.notion.com/v1/blocks/${params.id}/children`, {
@@ -15,6 +17,7 @@ export async function getServerSideProps({ params }: ParamsBase) {
     return {
         props: {
             results,
+            query: { id: params.id },
         },
     };
 }
@@ -25,7 +28,9 @@ const SinglePageStyles = styled.main`
 
 export interface Props {
     results: Result[];
-    query?: any;
+    query: {
+        id: string;
+    };
 }
 
 export interface Result {
@@ -75,10 +80,19 @@ export interface TextText {
     link: null;
 }
 
-const SinglePage: React.FC<Props> = ({ results }) => {
+export interface Paths {
+    params: PathParams;
+}
+
+export interface PathParams {
+    id: string;
+    title: string;
+}
+
+const SinglePage: React.FC<Props> = ({ results, query }) => {
     console.log('results: ', results);
     if (results) {
-        const notionNotes = results.map((result: Result) => {
+        const notionNotes: Text[][] = results.map((result: Result) => {
             const { type } = result;
             return result[type].text;
         });
@@ -91,7 +105,9 @@ const SinglePage: React.FC<Props> = ({ results }) => {
 
     return (
         <div>
-            <Head>{/* <title>{paths.find((path) => path.params.id === query.id).params.title}</title> */}</Head>
+            <Head>
+                <title>{pathData.find((path) => path.params.id === query.id).params.title}</title>
+            </Head>
 
             <SinglePageStyles>
                 {/* {notionNotes.map((note, idx) => (
