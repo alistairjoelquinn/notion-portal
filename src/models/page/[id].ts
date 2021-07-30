@@ -38,10 +38,11 @@ export interface Result {
     created_time: Date;
     last_edited_time: Date;
     has_children: boolean;
-    type: string;
+    type: 'paragraph' | 'bullet_list_item' | 'heading_3' | 'unsupported';
     paragraph?: Paragraph;
     bullet_list_item?: Paragraph;
     heading_3?: Paragraph;
+    unsupported?: any;
 }
 
 export interface Paragraph {
