@@ -1,8 +1,9 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import styled from 'styled-components';
 
-import { ParamsBase } from '@/models';
+import { ParamsBase, Props } from '@/models';
 import paths from '../../content/paths.json';
 
 const MainLinkStyles = styled.main`
@@ -28,23 +29,46 @@ const SingleLinkStyles = styled.div`
     }
 `;
 
-const Home: React.FC = () => (
-    <div>
-        <Head>
-            <title>Notion API</title>
-            <link rel="icon" href="favicon.ico" />
-        </Head>
+export async function getServerSideProps() {
+    console.log('ting: ', process.env.NEXT_PUBLIC_HOMEPAGE_ID);
+    const res = await fetch(`https://api.notion.com/v1/blocks/${process.env.NEXT_PUBLIC_HOMEPAGE_ID}/children`, {
+        headers: {
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTION_API_KEY}`,
+            'Notion-Version': '2021-05-13',
+        },
+    });
+    const { results } = await res.json();
+    console.log('results: ', results);
+    return {
+        props: { results },
+    };
+}
 
-        <MainLinkStyles>
-            <div>
-                {paths.map(({ params }: ParamsBase) => (
-                    <SingleLinkStyles key={params.id}>
-                        <Link href={`/page/${params.id}`}>{params.title}</Link>
-                    </SingleLinkStyles>
-                ))}
-            </div>
-        </MainLinkStyles>
-    </div>
-);
+const Home: React.FC<Props> = ({ results }) => {
+    useEffect(() => {
+        if (results) {
+            const nestedResults = results.map((result) => {});
+        }
+    }, [results]);
+
+    return (
+        <div>
+            <Head>
+                <title>Notion API</title>
+                <link rel="icon" href="favicon.ico" />
+            </Head>
+
+            <MainLinkStyles>
+                <div>
+                    {paths.map(({ params }: ParamsBase) => (
+                        <SingleLinkStyles key={params.id}>
+                            <Link href={`/page/${params.id}`}>{params.title}</Link>
+                        </SingleLinkStyles>
+                    ))}
+                </div>
+            </MainLinkStyles>
+        </div>
+    );
+};
 
 export default Home;

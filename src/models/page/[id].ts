@@ -5,31 +5,6 @@ export interface Props {
     };
 }
 
-// export interface Result {
-//     type: keyof Result;
-//     text: ResultText;
-//     annotations: ResultAnnotations;
-//     plain_text: string;
-//     href: null;
-//     heading_3?: Text;
-//     paragraph?: Text;
-//     bulleted_list_item?: Text;
-// }
-
-// export interface ResultAnnotations {
-//     bold: boolean;
-//     italic: boolean;
-//     strikethrough: boolean;
-//     underline: boolean;
-//     code: boolean;
-//     color: string;
-// }
-
-// export interface ResultText {
-//     content: string;
-//     link: null;
-// }
-
 // a full single result
 
 export interface Result {
