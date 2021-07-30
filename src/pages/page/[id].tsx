@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { v4 as uuid } from 'uuid';
 import styled from 'styled-components';
 
-import { Paths, Props, Result, Text } from '@/models/page/[id]';
+import { Paths, Props, Result, Text, TextElement } from '@/models/page/[id]';
 import paths from '../../../content/paths.json';
 
 const pathData: Paths[] = paths;
@@ -29,12 +29,14 @@ const SinglePageStyles = styled.main`
 `;
 
 const SinglePage: React.FC<Props> = ({ results, query }) => {
-    let notionNotes: Text[][] = [];
+    let notionNotes: (TextElement[] | undefined)[] = [];
     if (results) {
         notionNotes = results.map((result: Result) => {
             const { type } = result;
+            console.log('result: ', result);
             return result[type]?.text;
         });
+        // console.log('notionNotes: ', notionNotes);
     }
 
     if (!notionNotes) return null;
