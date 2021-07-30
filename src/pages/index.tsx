@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import styled from 'styled-components';
 
-import { ParamsBase, Props } from '@/models';
+import { ParamsBase, Props, Result } from '@/models';
 import paths from '../../content/paths.json';
 
 const MainLinkStyles = styled.main`
@@ -29,46 +28,59 @@ const SingleLinkStyles = styled.div`
     }
 `;
 
-export async function getServerSideProps() {
-    console.log('ting: ', process.env.NEXT_PUBLIC_HOMEPAGE_ID);
-    const res = await fetch(`https://api.notion.com/v1/blocks/${process.env.NEXT_PUBLIC_HOMEPAGE_ID}/children`, {
+async function getBlocksRecursively(id: string) {
+    console.log('id: ', id);
+    const res = await fetch(`https://api.notion.com/v1/blocks/${id}/children`, {
         headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTION_API_KEY}`,
             'Notion-Version': '2021-05-13',
         },
     });
-    const { results } = await res.json();
+
+    const { results }: { results: Result[] } = await res.json();
     console.log('results: ', results);
+
+    if (results) {
+        return results.map((result) => {
+            if (result.has_children) {
+                return getBlocksRecursively(result.id);
+            }
+            return result;
+        });
+    }
+    return 'no result';
+}
+
+export async function getServerSideProps() {
+    const startingId = process.env.NEXT_PUBLIC_HOMEPAGE_ID;
+
+    if (startingId) {
+        const res = await getBlocksRecursively(startingId);
+        console.log('RES: ', res);
+    }
+
     return {
-        props: { results },
+        props: {},
     };
 }
 
-const Home: React.FC<Props> = ({ results }) => {
-    useEffect(() => {
-        if (results) {
-            const nestedResults = results.map((result) => {});
-        }
-    }, [results]);
+const Home: React.FC<Props> = ({ results }) => (
+    <div>
+        <Head>
+            <title>Notion API</title>
+            <link rel="icon" href="favicon.ico" />
+        </Head>
 
-    return (
-        <div>
-            <Head>
-                <title>Notion API</title>
-                <link rel="icon" href="favicon.ico" />
-            </Head>
-
-            <MainLinkStyles>
-                <div>
-                    {paths.map(({ params }: ParamsBase) => (
-                        <SingleLinkStyles key={params.id}>
-                            <Link href={`/page/${params.id}`}>{params.title}</Link>
-                        </SingleLinkStyles>
-                    ))}
-                </div>
-            </MainLinkStyles>
-        </div>
-    );
-};
+        <MainLinkStyles>
+            <div>
+                {paths.map(({ params }: ParamsBase) => (
+                    <SingleLinkStyles key={params.id}>
+                        <Link href={`/page/${params.id}`}>{params.title}</Link>
+                    </SingleLinkStyles>
+                ))}
+            </div>
+        </MainLinkStyles>
+    </div>
+);
 
 export default Home;
